@@ -1,0 +1,22 @@
+name: vietnam-history
+channels:
+  - nvidia
+  - pytorch
+  - anaconda
+  - defaults
+dependencies:
+  - python=3.12
+  - cudatoolkit
+  - pytorch-cuda
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pip
+  - pip:
+      - openai
+      - sentence-transformers
+      - langchain
+      - langchain-neo4j
+      - langchain-community
+      - langchain-huggingface
+      - langchain-google-genai
