@@ -1,4 +1,5 @@
 import os
+import json
 import requests
 from pprint import pprint
 from dotenv import load_dotenv
@@ -6,6 +7,11 @@ from dotenv import load_dotenv
 from langchain_neo4j import Neo4jGraph
 
 load_dotenv()
+
+def load_query(json_path):
+    with open(json_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    return data['query'] 
 
 def create_graph(url, username, password):
     return Neo4jGraph(
@@ -29,8 +35,7 @@ def main():
     print(f"-> Created Graph: {graph}")
 
     # Insert data into graph
-    url = "https://gist.githubusercontent.com/tomasonjo/08dc8ba0e19d592c4c3cde40dd6abcc3/raw/da8882249af3e819a80debf3160ebbb3513ee962/microservices.json"
-    query = requests.get(url).json()['query']
+    query = load_query('data/query.json')
     create_dataset(graph, query)
     pprint(f"-> Inserted query into graph:\n{query}")
     

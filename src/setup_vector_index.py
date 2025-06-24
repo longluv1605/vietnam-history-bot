@@ -15,9 +15,9 @@ def create_vector_index(embedding, url, username, password):
         url=url,
         username=username,
         password=password,
-        index_name='tasks', # Vector index name
-        node_label="Task", # Relative node label
-        text_node_properties=['name', 'description', 'status'], # Properties to be used to calculate embeddings and retrieve from the vector index.
+        index_name='events', # Vector index name
+        node_label="Event", # Relative node label
+        text_node_properties=['full_text', 'description'], # Properties to be used to calculate embeddings and retrieve from the vector index.
         embedding_node_property='embedding' # Which property to store the embedding values to.
     )    
     
@@ -31,7 +31,7 @@ def main():
     vector_index = create_vector_index(embedding, NEO4J_URL, NEO4J_USERNAME, NEO4J_PASSWORD)
     print("-> Created vector index.")
     response = vector_index.similarity_search(
-        "How will RecommendationService be updated?"
+        "Liên hợp quốc thành lập khi nào?"
     )
     print("-> Retrieved:", response[0].page_content)
     # name: BugFix
