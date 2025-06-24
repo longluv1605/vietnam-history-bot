@@ -3,6 +3,7 @@ channels:
   - nvidia
   - pytorch
   - anaconda
+  - poppler
   - defaults
 dependencies:
   - python=3.12
@@ -20,3 +21,6 @@ dependencies:
       - langchain-community
       - langchain-huggingface
       - langchain-google-genai
+      - faiss-cpu
+      - pytesseract
+      - pdf2image
