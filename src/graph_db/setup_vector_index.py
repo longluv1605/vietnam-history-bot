@@ -17,7 +17,7 @@ def create_vector_index(embedding, url, username, password):
         password=password,
         index_name='events', # Vector index name
         node_label="Event", # Relative node label
-        text_node_properties=['full_text', 'description'], # Properties to be used to calculate embeddings and retrieve from the vector index.
+        text_node_properties=['name', 'full_text', 'description'], # Properties to be used to calculate embeddings and retrieve from the vector index.
         embedding_node_property='embedding' # Which property to store the embedding values to.
     )    
     

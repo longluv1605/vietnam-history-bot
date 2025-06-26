@@ -23,7 +23,7 @@ def create_simple_vector_stores(embedding_model, data_path, vector_stores_path="
     
     # Chunking
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=512,
+        chunk_size=1024,
         chunk_overlap=50
     )
     chunks = text_splitter.split_documents(documents=documents)
