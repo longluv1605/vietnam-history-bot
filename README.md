@@ -31,5 +31,5 @@
 3. Chạy bot trên nên console:
 
     ```bash
-    python src/qa_bot.py
+    python src/chatbot.py
     ```

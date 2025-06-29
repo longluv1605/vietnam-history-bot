@@ -6,6 +6,7 @@ from langchain import hub
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.chat_history import InMemoryChatMessageHistory
 
 from retriever import get_history_retriever
 
@@ -28,22 +29,34 @@ def create_qa_chain(llm, retriever):
         retriever=retriever
     )
     
-def run_qa_chain(qa_chain, query):
-    query = {'input': query}
+def run_qa_chain(qa_chain, chat_history, query):
+    query = {
+        'input': query,
+        'chat_history': chat_history.messages,
+    }
     return qa_chain.invoke(query)
+
+def update_chat_history(chat_history, user_message, ai_message):
+    chat_history.add_user_message(user_message)
+    chat_history.add_ai_message(ai_message)
+    return chat_history
 
 def main():
     llm = load_llm()
     retriever = get_history_retriever()
     qa_chain = create_qa_chain(llm, retriever)
+    chat_history = InMemoryChatMessageHistory()
     
     while(True):
         print('========================================================================')
         query = input("Nhập câu hỏi của bạn (Nhập 'q' để thoát): ")
         if query.lower() == 'q':
             return
-        response = run_qa_chain(qa_chain, query)
-        print(response['answer'])
+        response = run_qa_chain(qa_chain, chat_history, query)
+        answer = response['answer']
+        print(f"Câu trả lời: {answer}\n")
+        
+        chat_history = update_chat_history(chat_history, query, answer)
         
 
 if __name__ == '__main__':
