@@ -24,3 +24,4 @@ dependencies:
       - faiss-cpu
       - pytesseract
       - pdf2image
+      - rank_bm25

@@ -12,21 +12,34 @@ from langchain.docstore.document import Document
 def load_embedding_model(model_name):
     return HuggingFaceEmbeddings(model_name=model_name)
 
-def create_simple_vector_stores(embedding_model, data_path, vector_stores_path="vectorstores/my_db"):
-    # Load docs
+def load_documents(data_path='data/Lich su 12-5-19.pdf'):
+    # Step 1: Load pages
     images = pdf2image.convert_from_path(data_path)
-    ## Setp 2: use OCR to detect text from images
+    
+    # Step 2: use OCR to extract docs
     documents = []
     for i, image in enumerate(images):
         text = pytesseract.image_to_string(image, lang='vie')
         documents.append(Document(page_content=text, metadata={"page": i+1}))
-    
-    # Chunking
+        
+    return documents
+
+def chunking(documents, chunk_size=1024, chunk_overlap=50):
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1024,
-        chunk_overlap=50
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap
     )
     chunks = text_splitter.split_documents(documents=documents)
+    
+    return chunks
+    
+
+def create_simple_vector_stores(embedding_model, data_path, vector_stores_path="vectorstores/my_db"):
+    # Load docs
+    documents = load_documents()
+    
+    # Chunking
+    chunks = chunking(documents)
     
     # Create vector stores
     db = FAISS.from_documents(chunks, embedding_model)
