@@ -12,7 +12,7 @@ from langchain.docstore.document import Document
 def load_embedding_model(model_name):
     return HuggingFaceEmbeddings(model_name=model_name)
 
-def load_documents(data_path='data/Lich su 12-5-19.pdf'):
+def load_documents(data_path='data/Lich su 12.pdf'):
     # Step 1: Load pages
     images = pdf2image.convert_from_path(data_path)
     
